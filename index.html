@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON FIT - Elite Fitness Club & Gym</title>
+    <!-- Iconos Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+/* ==========================================================================
+   RESET GENERAL Y VARIABLES (Tema Oscuro Cyberpunk Premium)
+   ========================================================================== */
+:root {
+    --bg-dark: #09090b;       /* Fondo ultra oscuro */
+    --bg-card: #141416;       /* Color de cajas/tarjetas */
+    --bg-input: #040405;      /* Color de inputs de texto */
+    --text-light: #f4f4f5;    /* Texto principal */
+    --text-gray: #a1a1aa;     /* Texto secundario */
+    --accent-neon: #adff2f;   /* Verde Neón principal */
+    --accent-neon-hover: #96e024;
+    --border-color: #242427;  /* Bordes sutiles */
+    
+    /* Estados de Salud y Etiquetas */
+    --status-blue: #38bdf8;
+    --status-yellow: #facc15;
+    --status-red: #f87171;
+    
+    --transition-speed: 0.35s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   ELEMENTOS REUTILIZABLES (Botones, Títulos, Tarjetas)
+   ========================================================================== */
+.section {
+    padding: 7rem 1.5rem;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-subtitle {
+    color: var(--accent-neon);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-title {
+    font-size: 2.75rem;
+    font-weight: 900;
+    margin-top: 0.5rem;
+    letter-spacing: -1px;
+}
+
+.divider {
+    width: 80px;
+    height: 4px;
+    background-color: var(--accent-neon);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(173, 255, 47, 0.5);
+}
+
+/* Botones con transiciones elegantes */
+.btn-primary {
+    background-color: var(--accent-neon);
+    color: #000;
+    font-weight: 700;
+    padding: 0.85rem 1.75rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(173, 255, 47, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-neon-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(173, 255, 47, 0.4);
+}
+
+.btn-secondary {
+    background-color: var(--bg-card);
+    color: var(--text-light);
+    font-weight: 700;
+    padding: 0.85rem 1.75rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+}
+
+.btn-secondary:hover {
+    background-color: #222225;
+    border-color: #52525b;
+    transform: translateY(-3px);
+}
+
+.btn-sm {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.highlight-text {
+    color: var(--accent-neon);
+}
+
+/* Colores de Calculadora */
+.color-blue { color: var(--status-blue) !important; }
+.color-neon { color: var(--accent-neon) !important; }
+.color-yellow { color: var(--status-yellow) !important; }
+.color-red { color: var(--status-red) !important; }
+
+/* ==========================================================================
+   MENÚ DE NAVEGACIÓN
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    background-color: rgba(9, 9, 11, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-light);
+    text-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
+}
+
+.logo-icon {
+    color: var(--accent-neon);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    transition: color var(--transition-speed);
+}
+
+.nav-links a:hover {
+    color: var(--accent-neon);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+/* Navegación móvil */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background-color: var(--bg-dark);
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    left: 0;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    gap: 1.25rem;
+}
+
+.mobile-menu.active {
+    display: flex;
+}
+
+.mobile-menu a {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   SECCIÓN DE INICIO (HERO)
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1920');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--bg-dark) 5%, transparent 95%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    padding: 0 1.5rem;
+}
+
+.badge {
+    background-color: rgba(173, 255, 47, 0.15);
+    border: 1px solid rgba(173, 255, 47, 0.3);
+    color: var(--accent-neon);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    display: inline-block;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-top: 1.5rem;
+    letter-spacing: -2px;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, var(--accent-neon), #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    color: var(--text-gray);
+    font-size: 1.25rem;
+    margin: 1.5rem auto 2.5rem;
+    max-width: 600px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* ==========================================================================
+   ESTADÍSTICAS
+   ========================================================================== */
+.stats-section {
+    background-color: var(--bg-dark);
+    padding: 4rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.stats-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.stat-card {
+    background-color: rgba(20, 20, 22, 0.5);
+    border: 1px solid rgba(39, 39, 42, 0.5);
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    transition: transform var(--transition-speed);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--accent-neon);
+    text-shadow: 0 0 15px rgba(173, 255, 47, 0.2);
+}
+
+.stat-label {
+    color: var(--text-gray);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   TARJETAS DE CLASES (SECCIÓN DISCIPLINAS)
+   ========================================================================== */
+.classes-section {
+    background-color: rgba(20, 20, 22, 0.4);
+}
+
+.classes-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.class-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform var(--transition-speed) ease, border-color var(--transition-speed);
+}
+
+.class-card:hover {
+    transform: translateY(-5px);
+    border-color: #3f3f46;
+}
+
+.class-img-container {
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.class-img-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--bg-card), transparent 60%);
+}
+
+.class-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.class-card:hover .class-img {
+    transform: scale(1.1);
+}
+
+.class-info {
+    padding: 1.5rem;
+}
+
+.class-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.class-desc {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.class-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.class-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.class-meta i {
+    color: var(--accent-neon);
+    width: 16px;
+    height: 16px;
+}
+
+/* ==========================================================================
+   SECCIÓN NUEVA: HORARIOS FILTRABLES
+   ========================================================================== */
+.schedule-section {
+    background-color: var(--bg-dark);
+}
+
+.schedule-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Botones de Filtro por Día */
+.schedule-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.filter-btn {
+    background-color: var(--bg-card);
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.filter-btn:hover {
+    border-color: var(--accent-neon);
+    color: var(--accent-neon);
+}
+
+.filter-btn.active {
+    background-color: var(--accent-neon);
+    color: #000;
+    border-color: var(--accent-neon);
+    box-shadow: 0 4px 15px rgba(173, 255, 47, 0.3);
+}
+
+/* Rejilla de Horarios */
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.schedule-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2rem;
+    display: none; /* Se oculta por defecto */
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    animation: fadeIn 0.4s ease forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.schedule-item.show {
+    display: flex;
+}
+
+.sch-time {
+    color: var(--accent-neon);
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.sch-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.sch-trainer {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.sch-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 5px;
+}
+
+.tag-hiit { background-color: rgba(248, 113, 113, 0.15); color: #f87171; }
+.tag-yoga { background-color: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+.tag-fuerza { background-color: rgba(173, 255, 47, 0.15); color: var(--accent-neon); }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   CALCULADORA DE IMC INTERACTIVA
+   ========================================================================== */
+.imc-section {
+    background-color: rgba(20, 20, 22, 0.3);
+}
+
+.imc-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.imc-text {
+    color: var(--text-gray);
+    margin: 1.5rem 0 2rem;
+}
+
+.imc-ranges {
+    background-color: rgba(24, 24, 27, 0.4);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 20px;
+}
+
+.ranges-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.ranges-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.ranges-list li {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-gray);
+}
+
+.imc-calculator-card {
+    background-color: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-gray);
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.9rem 1.25rem;
+    color: var(--text-light);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color var(--transition-speed);
+}
+
+.form-input:focus {
+    border-color: var(--accent-neon);
+}
+
+.form-textarea {
+    resize: none;
+}
+
+/* Caja de Resultados Calculados */
+.resultado-box {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--bg-input);
+    border-radius: 15px;
+    border: 1px solid rgba(173, 255, 47, 0.3);
+    text-align: center;
+}
+
+.resultado-box.hidden {
+    display: none;
+}
+
+.res-label {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+}
+
+.res-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--accent-neon);
+    margin: 0.25rem 0;
+}
+
+.res-classification {
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   SECCIÓN NUEVA: EQUIPO DE COACHES
+   ========================================================================== */
+.trainers-section {
+    background-color: var(--bg-dark);
+}
+
+.trainers-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.trainer-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    transition: all var(--transition-speed) ease;
+}
+
+.trainer-img-wrapper {
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+}
+
+.trainer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+
+.trainer-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.trainer-socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.trainer-socials a {
+    background-color: var(--accent-neon);
+    color: #000;
+    padding: 0.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-speed) ease;
+}
+
+.trainer-socials a:hover {
+    transform: scale(1.1);
+}
+
+.trainer-card:hover .trainer-overlay {
+    opacity: 1;
+}
+
+.trainer-card:hover .trainer-img {
+    transform: scale(1.05);
+}
+
+.trainer-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.trainer-name {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.trainer-role {
+    color: var(--accent-neon);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   PLANES DE MEMBRESÍA
+   ========================================================================== */
+.plans-section {
+    background-color: rgba(20, 20, 22, 0.4);
+}
+
+.plans-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.plan-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all var(--transition-speed);
+}
+
+.plan-card:hover {
+    border-color: #52525b;
+}
+
+/* Tarjeta Destacada */
+.featured-plan {
+    position: relative;
+    border: 2px solid var(--accent-neon);
+    box-shadow: 0 0 25px rgba(173, 255, 47, 0.15);
+    transform: scale(1.03);
+}
+
+.featured-plan:hover {
+    border-color: var(--accent-neon);
+}
+
+.badge-featured {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-neon);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0.35rem 1.25rem;
+    border-radius: 50px;
+}
+
+.plan-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    letter-spacing: 1px;
+}
+
+.plan-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-top: 0.25rem;
+}
+
+.plan-price {
+    margin: 1.5rem 0 2rem;
+}
+
+.price-symbol {
+    font-size: 1.5rem;
+    font-weight: 800;
+    vertical-align: top;
+}
+
+.price-num {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.price-period {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+.plan-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.plan-features li {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.plan-features .disabled {
+    color: #52525b;
+    text-decoration: line-through;
+}
+
+.icon-check {
+    color: var(--accent-neon);
+    width: 20px;
+    height: 20px;
+}
+
+.icon-close {
+    color: #3f3f46;
+    width: 20px;
+    height: 20px;
+}
+
+/* ==========================================================================
+   SECCIÓN DE CONTACTO
+   ========================================================================== */
+.contact-section {
+    background-color: var(--bg-dark);
+    border-top: 1px solid var(--border-color);
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.contact-text {
+    color: var(--text-gray);
+    margin: 1.5rem 0 2.5rem;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.detail-icon {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--accent-neon);
+    padding: 0.75rem;
+    border-radius: 12px;
+}
+
+.detail-title {
+    font-weight: 700;
+}
+
+.detail-content {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+.contact-form {
+    background-color: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   PIE DE PÁGINA ULTRA-DETALLADO (FOOTER PREMIUM)
+   ========================================================================== */
+.footer {
+    background-color: #050507;
+    border-top: 1px solid var(--border-color);
+    padding: 5rem 1.5rem 2rem;
+    color: var(--text-gray);
+}
+
+.footer-top {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.25fr 1.25fr;
+    gap: 3rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.footer-logo-style {
+    font-size: 1.75rem;
+    text-shadow: none;
+}
+
+.brand-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-socials a {
+    background-color: #111113;
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed);
+}
+
+.footer-socials a:hover {
+    background-color: var(--accent-neon);
+    color: #000;
+    border-color: var(--accent-neon);
+    transform: translateY(-3px);
+}
+
+.footer-heading {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 35px;
+    height: 3px;
+    background-color: var(--accent-neon);
+    border-radius: 10px;
+}
+
+.footer-links-group ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.footer-links-group a {
+    font-size: 0.9rem;
+    transition: color var(--transition-speed);
+}
+
+.footer-links-group a:hover {
+    color: var(--accent-neon);
+    padding-left: 5px;
+}
+
+.footer-links-group a {
+    transition: all 0.2s ease;
+}
+
+.footer-hours .hours-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    font-size: 0.9rem;
+}
+
+.footer-hours .hours-list li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hours-info {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    background-color: rgba(173, 255, 47, 0.05);
+    border: 1px dashed rgba(173, 255, 47, 0.2);
+    padding: 0.5rem;
+    border-radius: 8px;
+    color: var(--text-light);
+}
+
+/* Boletín Informativo */
+.footer-newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.news-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.news-input {
+    flex-grow: 1;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color var(--transition-speed);
+}
+
+.news-input:focus {
+    border-color: var(--accent-neon);
+}
+
+.news-btn {
+    padding: 0 1.25rem;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+/* Pie de página inferior */
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.footer-policies {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer-policies a:hover {
+    color: var(--text-light);
+}
+
+.dot {
+    color: #3f3f46;
+}
+
+/* ==========================================================================
+   VISTA RESPONSIVA (Media Queries)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .classes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .imc-container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .trainers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .plans-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .featured-plan {
+        transform: scale(1);
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .footer-top {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links, .nav-actions {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .classes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .trainers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i data-lucide="dumbbell" class="logo-icon animate-pulse"></i> NEON<span class="highlight-text">FIT</span>
+            </a>
+            
+            <!-- Menú de Escritorio -->
+            <div class="nav-links">
+                <a href="#inicio">Inicio</a>
+                <a href="#clases">Clases</a>
+                <a href="#horarios">Horarios</a>
+                <a href="#imc">Calculadora IMC</a>
+                <a href="#trainers">Equipo</a>
+                <a href="#planes">Membresías</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="#planes" class="btn-primary btn-sm">Únete Ahora</a>
+            </div>
+
+            <!-- Botón para Móviles -->
+            <button id="menu-btn" class="menu-toggle">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="#inicio">Inicio</a>
+            <a href="#clases">Clases</a>
+            <a href="#horarios">Horarios</a>
+            <a href="#imc">Calculadora IMC</a>
+            <a href="#trainers">Equipo</a>
+            <a href="#planes">Membresías</a>
+            <a href="#contacto">Contacto</a>
+            <a href="#planes" class="btn-primary">Únete Ahora</a>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN DE INICIO (HERO) -->
+    <header id="inicio" class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <span class="badge">Supera tus límites hoy</span>
+            <h1 class="hero-title">
+                FORJA TU <br><span class="gradient-text">MEJOR VERSIÓN</span>
+            </h1>
+            <p class="hero-subtitle">
+                Instalaciones de última generación, entrenadores certificados y un ambiente diseñado para llevar tu cuerpo y mente al siguiente nivel.
+            </p>
+            <div class="hero-buttons">
+                <a href="#planes" class="btn-primary btn-lg">
+                    Comenzar Entrenamiento <i data-lucide="arrow-right"></i>
+                </a>
+                <a href="#horarios" class="btn-secondary btn-lg">
+                    Ver Horarios <i data-lucide="calendar"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECCIÓN DE ESTADÍSTICAS -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 class="stat-number">15k+</h3>
+                <p class="stat-label">Miembros Activos</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number">50+</h3>
+                <p class="stat-label">Entrenadores Elite</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number">100+</h3>
+                <p class="stat-label">Máquinas Modernas</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number">24/7</h3>
+                <p class="stat-label">Acceso Total</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE CLASES -->
+    <section id="clases" class="section classes-section">
+        <div class="section-header">
+            <span class="section-subtitle">¿Qué ofrecemos?</span>
+            <h2 class="section-title">NUESTRAS DISCIPLINAS</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="classes-grid">
+            <!-- Tarjeta de Clase 1 -->
+            <div class="class-card">
+                <div class="class-img-container">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800" alt="Power Bodybuilding" class="class-img">
+                </div>
+                <div class="class-info">
+                    <h3 class="class-name">Power Bodybuilding</h3>
+                    <p class="class-desc">Aumenta tu masa muscular y fuerza bruta con entrenamientos estructurados de alta intensidad.</p>
+                    <div class="class-meta">
+                        <span><i data-lucide="clock"></i> 60 Minutos</span>
+                        <span><i data-lucide="activity"></i> Intenso</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de Clase 2 -->
+            <div class="class-card">
+                <div class="class-img-container">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800" alt="Functional HIIT" class="class-img">
+                </div>
+                <div class="class-info">
+                    <h3 class="class-name">Functional HIIT</h3>
+                    <p class="class-desc">Quema grasa y mejora tu resistencia cardiovascular con circuitos dinámicos y explosivos.</p>
+                    <div class="class-meta">
+                        <span><i data-lucide="clock"></i> 45 Minutos</span>
+                        <span><i data-lucide="activity"></i> Extremo</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de Clase 3 -->
+            <div class="class-card">
+                <div class="class-img-container">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800" alt="Yoga & Flexibilidad" class="class-img">
+                </div>
+                <div class="class-info">
+                    <h3 class="class-name">Yoga & Flexibilidad</h3>
+                    <p class="class-desc">Mejora tu postura, flexibilidad y reduce el estrés mental con posturas avanzadas y respiración.</p>
+                    <div class="class-meta">
+                        <span><i data-lucide="clock"></i> 50 Minutos</span>
+                        <span><i data-lucide="activity"></i> Moderado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: HORARIOS FILTRABLES (FUNCIONALIDAD INTERACTIVA) -->
+    <section id="horarios" class="section schedule-section">
+        <div class="section-header">
+            <span class="section-subtitle">Planifica tu Semana</span>
+            <h2 class="section-title">HORARIO DE CLASES</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="schedule-container">
+            <!-- Botones de Filtro por Día -->
+            <div class="schedule-filters">
+                <button class="filter-btn active" data-day="lunes">Lunes</button>
+                <button class="filter-btn" data-day="martes">Martes</button>
+                <button class="filter-btn" data-day="miercoles">Miércoles</button>
+                <button class="filter-btn" data-day="jueves">Jueves</button>
+                <button class="filter-btn" data-day="viernes">Viernes</button>
+                <button class="filter-btn" data-day="sabado">Sábado</button>
+            </div>
+
+            <!-- Tabla/Tarjetas de Horarios Dinámicas -->
+            <div class="schedule-grid">
+                <!-- LUNES -->
+                <div class="schedule-item show" data-day="lunes">
+                    <span class="sch-time">07:00 AM</span>
+                    <h4 class="sch-title">Functional HIIT</h4>
+                    <p class="sch-trainer">Coach Alex Rivera</p>
+                    <span class="sch-tag tag-hiit">HIIT</span>
+                </div>
+                <div class="schedule-item show" data-day="lunes">
+                    <span class="sch-time">10:00 AM</span>
+                    <h4 class="sch-title">Yoga & Flexibilidad</h4>
+                    <p class="sch-trainer">Coach Sofía Castro</p>
+                    <span class="sch-tag tag-yoga">Mente & Cuerpo</span>
+                </div>
+                <div class="schedule-item show" data-day="lunes">
+                    <span class="sch-time">07:00 PM</span>
+                    <h4 class="sch-title">Power Bodybuilding</h4>
+                    <p class="sch-trainer">Coach Marcus Thorne</p>
+                    <span class="sch-tag tag-fuerza">Fuerza</span>
+                </div>
+
+                <!-- MARTES -->
+                <div class="schedule-item" data-day="martes">
+                    <span class="sch-time">08:00 AM</span>
+                    <h4 class="sch-title">Power Bodybuilding</h4>
+                    <p class="sch-trainer">Coach Marcus Thorne</p>
+                    <span class="sch-tag tag-fuerza">Fuerza</span>
+                </div>
+                <div class="schedule-item" data-day="martes">
+                    <span class="sch-time">06:00 PM</span>
+                    <h4 class="sch-title">Functional HIIT</h4>
+                    <p class="sch-trainer">Coach Alex Rivera</p>
+                    <span class="sch-tag tag-hiit">HIIT</span>
+                </div>
+
+                <!-- MIERCOLES -->
+                <div class="schedule-item" data-day="miercoles">
+                    <span class="sch-time">07:00 AM</span>
+                    <h4 class="sch-title">Yoga & Flexibilidad</h4>
+                    <p class="sch-trainer">Coach Sofía Castro</p>
+                    <span class="sch-tag tag-yoga">Mente & Cuerpo</span>
+                </div>
+                <div class="schedule-item" data-day="miercoles">
+                    <span class="sch-time">07:00 PM</span>
+                    <h4 class="sch-title">Power Bodybuilding</h4>
+                    <p class="sch-trainer">Coach Marcus Thorne</p>
+                    <span class="sch-tag tag-fuerza">Fuerza</span>
+                </div>
+
+                <!-- JUEVES -->
+                <div class="schedule-item" data-day="jueves">
+                    <span class="sch-time">09:00 AM</span>
+                    <h4 class="sch-title">Functional HIIT</h4>
+                    <p class="sch-trainer">Coach Alex Rivera</p>
+                    <span class="sch-tag tag-hiit">HIIT</span>
+                </div>
+                <div class="schedule-item" data-day="jueves">
+                    <span class="sch-time">06:00 PM</span>
+                    <h4 class="sch-title">Yoga & Flexibilidad</h4>
+                    <p class="sch-trainer">Coach Sofía Castro</p>
+                    <span class="sch-tag tag-yoga">Mente & Cuerpo</span>
+                </div>
+
+                <!-- VIERNES -->
+                <div class="schedule-item" data-day="viernes">
+                    <span class="sch-time">07:00 AM</span>
+                    <h4 class="sch-title">Power Bodybuilding</h4>
+                    <p class="sch-trainer">Coach Marcus Thorne</p>
+                    <span class="sch-tag tag-fuerza">Fuerza</span>
+                </div>
+                <div class="schedule-item" data-day="viernes">
+                    <span class="sch-time">07:00 PM</span>
+                    <h4 class="sch-title">Functional HIIT</h4>
+                    <p class="sch-trainer">Coach Alex Rivera</p>
+                    <span class="sch-tag tag-hiit">HIIT</span>
+                </div>
+
+                <!-- SABADO -->
+                <div class="schedule-item" data-day="sabado">
+                    <span class="sch-time">10:00 AM</span>
+                    <h4 class="sch-title">Fullbody Especial</h4>
+                    <p class="sch-trainer">Todo el Equipo</p>
+                    <span class="sch-tag tag-fuerza">Cardio & Fuerza</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN INTERACTIVA: CALCULADORA IMC -->
+    <section id="imc" class="section imc-section">
+        <div class="imc-container">
+            <!-- Información Teórica -->
+            <div class="imc-info">
+                <span class="section-subtitle">Herramienta de Salud</span>
+                <h2 class="section-title">CALCULA TU IMC</h2>
+                <p class="imc-text">
+                    El Índice de Masa Corporal (IMC) es un método utilizado para estimar la cantidad de grasa corporal que tiene una persona, y determinar si el peso se encuentra dentro del rango saludable. ¡Pruébalo ahora mismo!
+                </p>
+                <div class="imc-ranges">
+                    <h4 class="ranges-title">Rangos de Referencia:</h4>
+                    <ul class="ranges-list">
+                        <li><span>Bajo peso:</span> <strong class="color-blue">&lt; 18.5</strong></li>
+                        <li><span>Peso Saludable:</span> <strong class="color-neon">18.5 - 24.9</strong></li>
+                        <li><span>Sobrepeso:</span> <strong class="color-yellow">25.0 - 29.9</strong></li>
+                        <li><span>Obesidad:</span> <strong class="color-red">&ge; 30.0</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Panel de la Calculadora -->
+            <div class="imc-calculator-card">
+                <div class="form-group">
+                    <label class="form-label">Peso (kg)</label>
+                    <input type="number" id="peso" placeholder="Ej: 75" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Estatura (cm)</label>
+                    <input type="number" id="altura" placeholder="Ej: 175" class="form-input">
+                </div>
+                <button onclick="calcularIMC()" class="btn-primary btn-full">Calcular Ahora</button>
+                
+                <!-- Cuadro de Resultados (Escondido por defecto) -->
+                <div id="resultado-imc" class="resultado-box hidden">
+                    <p class="res-label">Tu resultado es:</p>
+                    <h3 id="imc-valor" class="res-value">0.0</h3>
+                    <p id="imc-clasificacion" class="res-classification">Calculando...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: ENTRENADORES (TEAM) -->
+    <section id="trainers" class="section trainers-section">
+        <div class="section-header">
+            <span class="section-subtitle">Expertos a tu Servicio</span>
+            <h2 class="section-title">NUESTROS COACHES ELITE</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="trainers-grid">
+            <!-- Entrenador 1 -->
+            <div class="trainer-card">
+                <div class="trainer-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=600" alt="Marcus Thorne" class="trainer-img">
+                    <div class="trainer-overlay">
+                        <div class="trainer-socials">
+                            <a href="#"><i data-lucide="instagram"></i></a>
+                            <a href="#"><i data-lucide="twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="trainer-info">
+                    <h3 class="trainer-name">Marcus Thorne</h3>
+                    <p class="trainer-role">Head of Powerlifting</p>
+                </div>
+            </div>
+
+            <!-- Entrenador 2 -->
+            <div class="trainer-card">
+                <div class="trainer-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?q=80&w=600" alt="Sofía Castro" class="trainer-img">
+                    <div class="trainer-overlay">
+                        <div class="trainer-socials">
+                            <a href="#"><i data-lucide="instagram"></i></a>
+                            <a href="#"><i data-lucide="youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="trainer-info">
+                    <h3 class="trainer-name">Sofía Castro</h3>
+                    <p class="trainer-role">Yoga Specialist</p>
+                </div>
+            </div>
+
+            <!-- Entrenador 3 -->
+            <div class="trainer-card">
+                <div class="trainer-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1605296867304-46d5465a25f1?q=80&w=600" alt="Alex Rivera" class="trainer-img">
+                    <div class="trainer-overlay">
+                        <div class="trainer-socials">
+                            <a href="#"><i data-lucide="instagram"></i></a>
+                            <a href="#"><i data-lucide="facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="trainer-info">
+                    <h3 class="trainer-name">Alex Rivera</h3>
+                    <p class="trainer-role">HIIT & Functional Coach</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PLANES DE MEMBRESÍA -->
+    <section id="planes" class="section plans-section">
+        <div class="section-header">
+            <span class="section-subtitle">Membresías</span>
+            <h2 class="section-title">ELIGE TU PLAN</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="plans-grid">
+            <!-- Plan Básico -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <span class="plan-tag">Esencial</span>
+                    <h3 class="plan-title">PLAN BÁSICO</h3>
+                    <div class="plan-price">
+                        <span class="price-symbol">$</span><span class="price-num">29</span><span class="price-period">/mes</span>
+                    </div>
+                </div>
+                <ul class="plan-features">
+                    <li><i data-lucide="check" class="icon-check"></i> Acceso a zona de cardio y peso libre</li>
+                    <li><i data-lucide="check" class="icon-check"></i> Lockers y duchas incluidos</li>
+                    <li class="disabled"><i data-lucide="x" class="icon-close"></i> Clases grupales dirigidas</li>
+                    <li class="disabled"><i data-lucide="x" class="icon-close"></i> Acceso a Sauna / Spa</li>
+                </ul>
+                <button onclick="seleccionarPlan('Básico')" class="btn-secondary btn-full">Elegir Plan</button>
+            </div>
+
+            <!-- Plan Pro (Recomendado/Destacado) -->
+            <div class="plan-card featured-plan">
+                <span class="badge-featured">Recomendado</span>
+                <div class="plan-header">
+                    <span class="plan-tag highlight-text">Más Popular</span>
+                    <h3 class="plan-title">PLAN PRO</h3>
+                    <div class="plan-price">
+                        <span class="price-symbol">$</span><span class="price-num">49</span><span class="price-period">/mes</span>
+                    </div>
+                </div>
+                <ul class="plan-features">
+                    <li><i data-lucide="check" class="icon-check"></i> Acceso Total 24/7</li>
+                    <li><i data-lucide="check" class="icon-check"></i> Todas las clases grupales ilimitadas</li>
+                    <li><i data-lucide="check" class="icon-check"></i> 1 Evaluación nutricional mensual</li>
+                    <li class="disabled"><i data-lucide="x" class="icon-close"></i> Acceso a Sauna / Spa VIP</li>
+                </ul>
+                <button onclick="seleccionarPlan('Pro')" class="btn-primary btn-full">Elegir Plan Pro</button>
+            </div>
+
+            <!-- Plan VIP -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <span class="plan-tag">Sin Límites</span>
+                    <h3 class="plan-title">PLAN BLACK</h3>
+                    <div class="plan-price">
+                        <span class="price-symbol">$</span><span class="price-num">89</span><span class="price-period">/mes</span>
+                    </div>
+                </div>
+                <ul class="plan-features">
+                    <li><i data-lucide="check" class="icon-check"></i> Acceso Global a todas las sedes</li>
+                    <li><i data-lucide="check" class="icon-check"></i> Entrenador Personalizado (2 sesiones/semana)</li>
+                    <li><i data-lucide="check" class="icon-check"></i> Acceso a Zona VIP, Sauna y Spa</li>
+                    <li><i data-lucide="check" class="icon-check"></i> Pases de invitado gratis (5 al mes)</li>
+                </ul>
+                <button onclick="seleccionarPlan('Black VIP')" class="btn-secondary btn-full">Elegir Plan VIP</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE CONTACTO -->
+    <section id="contacto" class="section contact-section">
+        <div class="contact-container">
+            <!-- Información de contacto -->
+            <div class="contact-info">
+                <span class="section-subtitle">Hablemos</span>
+                <h2 class="section-title">¿TIENES PREGUNTAS?</h2>
+                <p class="contact-text">Estamos listos para ayudarte a dar el primer paso. Escríbenos o visítanos en nuestras instalaciones.</p>
+                
+                <div class="contact-details">
+                    <div class="detail-item">
+                        <div class="detail-icon"><i data-lucide="map-pin"></i></div>
+                        <div>
+                            <h4 class="detail-title">Dirección Principal</h4>
+                            <p class="detail-content">Av. Fitness 456, Ciudad Neón</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i data-lucide="phone"></i></div>
+                        <div>
+                            <h4 class="detail-title">Llámanos</h4>
+                            <p class="detail-content">+51 987 654 321</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i data-lucide="mail"></i></div>
+                        <div>
+                            <h4 class="detail-title">Correo Electrónico</h4>
+                            <p class="detail-content">contacto@neonfit.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de contacto -->
+            <form id="contact-form" onsubmit="enviarMensaje(event)" class="contact-form">
+                <div class="form-group">
+                    <label class="form-label">Nombre Completo</label>
+                    <input type="text" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Correo de Contacto</label>
+                    <input type="email" required class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mensaje o Dudas</label>
+                    <textarea rows="4" required class="form-input form-textarea"></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Enviar Mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- DETALLADO Y PROFESIONAL PIE DE PÁGINA (FOOTER) -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo footer-logo-style">
+                    <i data-lucide="dumbbell" class="logo-icon"></i> NEON<span class="highlight-text">FIT</span>
+                </div>
+                <p class="brand-desc">
+                    La comunidad de entrenamiento definitiva. Más que un gimnasio, somos un estilo de vida que persigue la superación constante y el rendimiento de élite.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+                    <a href="#" aria-label="Youtube"><i data-lucide="youtube"></i></a>
+                    <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links-group">
+                <h4 class="footer-heading">Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#clases">Clases</a></li>
+                    <li><a href="#horarios">Horarios Clases</a></li>
+                    <li><a href="#imc">Calculadora IMC</a></li>
+                    <li><a href="#planes">Membresías</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-hours">
+                <h4 class="footer-heading">Horas de Operación</h4>
+                <ul class="hours-list">
+                    <li><span>Lunes - Viernes:</span> <strong class="highlight-text">6:00 AM - 11:00 PM</strong></li>
+                    <li><span>Sábados:</span> <strong>8:00 AM - 8:00 PM</strong></li>
+                    <li><span>Domingos:</span> <strong>9:00 AM - 2:00 PM</strong></li>
+                    <li class="hours-info">🔓 Acceso 24/7 activo para Plan Pro y Black.</li>
+                </ul>
+            </div>
+
+            <div class="footer-newsletter">
+                <h4 class="footer-heading">Únete al Boletín</h4>
+                <p class="news-text">Suscríbete para recibir rutinas semanales gratuitas, consejos de nutrición y ofertas exclusivas de membresías.</p>
+                <form class="newsletter-form" onsubmit="enviarNewsletter(event)">
+                    <input type="email" placeholder="Tu correo electrónico" required class="news-input">
+                    <button type="submit" class="btn-primary news-btn" aria-label="Suscribir"><i data-lucide="send"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026 NEON FIT Club. Todos los derechos reservados.</p>
+            <div class="footer-policies">
+                <a href="#">Términos y Condiciones</a>
+                <span class="dot">·</span>
+                <a href="#">Política de Privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DE FUNCIONALIDADES INTERACTIVAS -->
+    <script>
+        // Inicializa Iconos estéticos de Lucide
+        lucide.createIcons();
+
+        // Menú móvil deslizante
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // FUNCIONALIDAD: Horario Filtrable (Filtros por Día)
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const scheduleItems = document.querySelectorAll('.schedule-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remover clase activa de todos los botones y agregar al seleccionado
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const selectedDay = btn.getAttribute('data-day');
+
+                // Filtrar las clases con efecto de fade-in/out
+                scheduleItems.forEach(item => {
+                    if (item.getAttribute('data-day') === selectedDay) {
+                        item.classList.add('show');
+                    } else {
+                        item.classList.remove('show');
+                    }
+                });
+            });
+        });
+
+        // Calculadora de Masa Corporal (IMC) interactiva
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseFloat(document.getElementById('altura').value) / 100;
+
+            if (!peso || !altura) {
+                alert("Por favor, ingresa un peso y estatura válidos para calcular.");
+                return;
+            }
+
+            const imc = (peso / (altura * altura)).toFixed(1);
+            const resultadoDiv = document.getElementById('resultado-imc');
+            const imcValor = document.getElementById('imc-valor');
+            const imcClasif = document.getElementById('imc-clasificacion');
+
+            imcValor.innerText = imc;
+            resultadoDiv.classList.remove('hidden');
+
+            if (imc < 18.5) {
+                imcClasif.innerText = "Bajo peso";
+                imcClasif.className = "res-classification color-blue";
+            } else if (imc >= 18.5 && imc <= 24.9) {
+                imcClasif.innerText = "Peso Saludable ¡Felicidades!";
+                imcClasif.className = "res-classification color-neon";
+            } else if (imc >= 25 && imc <= 29.9) {
+                imcClasif.innerText = "Sobrepeso (Moderado)";
+                imcClasif.className = "res-classification color-yellow";
+            } else {
+                imcClasif.innerText = "Obesidad (¡Es momento de entrenar!)";
+                imcClasif.className = "res-classification color-red";
+            }
+        }
+
+        // Selección de planes e interacción
+        function seleccionarPlan(nombrePlan) {
+            alert(`🎉 ¡Excelente elección! Has elegido el Plan: ${nombrePlan}.\nPor favor, rellena el formulario de contacto para reservar tu cupo.`);
+            document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Envío de formulario de contacto
+        function enviarMensaje(event) {
+            event.preventDefault();
+            alert("💪 ¡Mensaje enviado con éxito! Un asesor de NEON FIT se comunicará contigo vía Email o Teléfono hoy mismo.");
+            document.getElementById('contact-form').reset();
+        }
+
+        // Envío de boletín (Newsletter)
+        function enviarNewsletter(event) {
+            event.preventDefault();
+            alert("📩 ¡Te has suscrito con éxito al boletín de NEON FIT! Revisa tu correo pronto.");
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>
